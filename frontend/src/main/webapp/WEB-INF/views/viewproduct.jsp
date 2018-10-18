@@ -23,7 +23,7 @@
 
 
 <security:authorize access="hasRole('ROLE_USER')">
-<b>Enter Quantity</b><input type="number" name="quantity">
+<b>Enter Quantity</b><input type="number" name="quantity" min="1" max="${product.quantity}">
 <button type="submit" value='Add To Cart' class="btn btn-info btn-lg">Shopping Cart
 <span class="glyphicon glyphicon-shopping-cart"></span>Add To Cart
 </button>

@@ -20,15 +20,17 @@ public class Customer {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-
 	private int id;
+	
 	@NotEmpty(message="Firstname cannot be blank")
 	private String firstname;
 	private String lastname;
+	
 	@Email(message="Email address is not well formed")
 	@NotEmpty
 	@Column(unique=true)
 	private String email;
+	
 	@Size(max=10,min=10,message="Enter 10 digits phone number")
 	private String phonenumber;
 	@OneToOne(cascade=CascadeType.ALL)
@@ -40,6 +42,7 @@ public class Customer {
 	@OneToOne(cascade=CascadeType.ALL)
 	@Valid
 	private ShippingAddress shippingaddress;
+	
 	@OneToOne(cascade=CascadeType.ALL)
 	private Cart cart;
 	

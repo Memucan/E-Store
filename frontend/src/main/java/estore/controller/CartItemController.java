@@ -35,27 +35,29 @@ public class CartItemController {
 	@Autowired
 	private CustomerDao customerDao;
 
-	org.springframework.security.core.userdetails.User user;
 	@RequestMapping(value="/cart/addtocart/{id}")
-	public String addToCart(@AuthenticationPrincipal Principal principal,  @PathVariable int id,@RequestParam int quantity) {
+	public String addToCart(@AuthenticationPrincipal Principal principal,  @PathVariable int id, @RequestParam int quantity)
+	{
 		Product product=productDao.getProduct(id);
+		
 		String username=principal.getName();
 		User user=customerDao.getUser(username);
 		Customer customer=user.getCustomer();
 		Cart cart=customer.getCart();
 		List<CartItem> cartItems=cart.getCartItems();
-		for(CartItem cartItem:cartItems) {
-			if(cartItem.getProduct().getId()==id) {
-				cartItem.setQuantity(quantity);
+		
+		for(CartItem cartItem:cartItems)
+		{
+			if(cartItem.getProduct().getId()==id)
+			{
+				int newQuantity = cartItem.getQuantity() + quantity;
+				cartItem.setQuantity(newQuantity);
 				cartItem.setTotalPrice(cartItem.getQuantity() * product.getPrice() );
 				cartItemDao.saveOrUpdateCartItem(cartItem);
 				return "redirect:/cart/getcart";
 			}
 		}
-		
-
 	
-		
 		CartItem cartItem=new CartItem();
 		cartItem.setQuantity(quantity);
 		cartItem.setTotalPrice(cartItem.getQuantity() * product.getPrice());
